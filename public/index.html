@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faceless AI — Build Websites, Apps & 3D Games With Prompts</title>
+
+  <meta name="description" content="Faceless AI generates websites, apps, and 3D games instantly using AI-powered prompts." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#050816;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      width:100%;
+      height:100%;
+      background:
+        radial-gradient(circle at top left, rgba(0,132,255,.2), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(140,0,255,.2), transparent 30%);
+      z-index:-1;
+    }
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    nav{
+      position:fixed;
+      width:100%;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(15px);
+      background:rgba(10,10,20,.4);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .nav-content{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 0;
+    }
+
+    .logo{
+      font-size:1.5rem;
+      font-weight:800;
+      color:#6ae2ff;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:30px;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color:white;
+      transition:.3s;
+    }
+
+    .nav-links a:hover{
+      color:#6ae2ff;
+    }
+
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
+    }
+
+    .hero h1{
+      font-size:4rem;
+      line-height:1.1;
+      margin-bottom:25px;
+      background:linear-gradient(90deg,#6ae2ff,#9b5cff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .hero p{
+      color:#cfcfe7;
+      font-size:1.1rem;
+      margin-bottom:30px;
+      line-height:1.7;
+    }
+
+    .buttons{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:15px 28px;
+      border-radius:12px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      transition:.3s;
+      text-decoration:none;
+      display:inline-block;
+    }
+
+    .primary{
+      background:linear-gradient(90deg,#00c6ff,#7d2cff);
+      color:white;
+      box-shadow:0 0 20px rgba(0,198,255,.4);
+    }
+
+    .secondary{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      backdrop-filter:blur(10px);
+      color:white;
+    }
+
+    .btn:hover{
+      transform:translateY(-3px);
+    }
+
+    .glass-card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(20px);
+      border-radius:24px;
+      padding:25px;
+      box-shadow:0 0 40px rgba(0,0,0,.3);
+    }
+
+    .dashboard{
+      position:relative;
+      animation:float 5s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-15px);}
+    }
+
+    .typing{
+      font-family:monospace;
+      color:#6ae2ff;
+      white-space:nowrap;
+      overflow:hidden;
+      border-right:3px solid #6ae2ff;
+      width:0;
+      animation:typing 4s steps(40,end) infinite alternate;
+    }
+
+    @keyframes typing{
+      from{width:0}
+      to{width:100%}
+    }
+
+    section{
+      padding:100px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      font-size:2.8rem;
+      margin-bottom:60px;
+    }
+
+    .features-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    .feature{
+      transition:.4s;
+    }
+
+    .feature:hover{
+      transform:translateY(-10px);
+      border-color:#6ae2ff;
+    }
+
+    .feature h3{
+      margin:20px 0 10px;
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    .step-number{
+      font-size:3rem;
+      font-weight:800;
+      color:#6ae2ff;
+      margin-bottom:10px;
+    }
+
+    .demo-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:25px;
+    }
+
+    .mockup{
+      height:250px;
+      border-radius:20px;
+      overflow:hidden;
+      position:relative;
+      background:linear-gradient(145deg,#0f172a,#1e293b);
+    }
+
+    .mockup::before{
+      content:"AI GENERATED";
+      position:absolute;
+      top:15px;
+      left:15px;
+      padding:8px 14px;
+      background:#00c6ff;
+      border-radius:50px;
+      font-size:.8rem;
+      color:black;
+      font-weight:700;
+    }
+
+    .pricing{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:25px;
+    }
+
+    .price-card{
+      text-align:center;
+    }
+
+    .price{
+      font-size:3rem;
+      margin:20px 0;
+      color:#6ae2ff;
+    }
+
+    .testimonials{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:25px;
+    }
+
+    .faq-item{
+      margin-bottom:20px;
+    }
+
+    footer{
+      padding:60px 0;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+
+    .footer-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:30px;
+    }
+
+    .footer-grid a{
+      color:#b8b8d0;
+      text-decoration:none;
+      display:block;
+      margin-top:10px;
+    }
+
+    .chat-ui{
+      margin-top:30px;
+      background:#0d1328;
+      border-radius:18px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .prompt-box{
+      background:#111827;
+      padding:15px;
+      border-radius:12px;
+      color:#6ae2ff;
+      margin-bottom:15px;
+      font-family:monospace;
+    }
+
+    .code-window{
+      background:black;
+      border-radius:12px;
+      padding:15px;
+      color:#00ff9d;
+      font-family:monospace;
+      overflow:auto;
+    }
+
+    @media(max-width:900px){
+      .hero-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:2.8rem;
+      }
+
+      .nav-links{
+        display:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="container nav-content">
+    <div class="logo">Faceless AI</div>
+
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#demo">Demo</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div>
+      <h1>Build Websites, Apps & 3D Games With Simple Prompts</h1>
+
+      <p>
+        Faceless AI transforms ideas into production-ready digital products instantly.
+        Generate websites, mobile apps, and immersive 3D games using advanced AI automation.
+      </p>
+
+      <div class="buttons">
+        <a href="#" class="btn primary">Start Creating</a>
+        <a href="#" class="btn secondary">Watch Demo</a>
+      </div>
+
+      <div class="chat-ui">
+        <div class="prompt-box">
+          > Create a futuristic fintech mobile app with AI analytics dashboard
+        </div>
+
+        <div class="typing">
+          Generating app architecture, UI components, backend APIs...
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard glass-card">
+      <img
+        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+        alt="Dashboard"
+        style="width:100%; border-radius:18px;"
+      />
+
+      <div class="code-window" style="margin-top:20px;">
+        AI.build({
+          project: "3D Racing Game",
+          engine: "Unreal",
+          deploy: true
+        })
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">Powerful AI Features</h2>
+
+    <div class="features-grid">
+
+      <div class="glass-card feature">
+        <h3>AI Website Generator</h3>
+        <p>Create premium websites from text prompts instantly.</p>
+      </div>
+
+      <div class="glass-card feature">
+        <h3>AI Mobile App Builder</h3>
+        <p>Generate iOS and Android applications with smart automation.</p>
+      </div>
+
+      <div class="glass-card feature">
+        <h3>AI 3D Game Creator</h3>
+        <p>Build immersive 3D games using advanced AI generation.</p>
+      </div>
+
+      <div class="glass-card feature">
+        <h3>One-click Deployment</h3>
+        <p>Deploy projects globally with instant cloud infrastructure.</p>
+      </div>
+
+      <div class="glass-card feature">
+        <h3>Prompt-to-Code Engine</h3>
+        <p>Transform natural language into scalable production code.</p>
+      </div>
+
+      <div class="glass-card feature">
+        <h3>Cloud Storage</h3>
+        <p>Store and manage all AI-generated projects securely.</p>
+      </div>
+
+      <div class="glass-card feature">
+        <h3>Team Collaboration</h3>
+        <p>Invite developers and designers into collaborative workspaces.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+
+    <div class="steps">
+
+      <div class="glass-card">
+        <div class="step-number">01</div>
+        <h3>Type an Idea</h3>
+        <p>Describe your dream product using simple prompts.</p>
+      </div>
+
+      <div class="glass-card">
+        <div class="step-number">02</div>
+        <h3>AI Generates the Project</h3>
+        <p>The AI designs, codes, and structures your application instantly.</p>
+      </div>
+
+      <div class="glass-card">
+        <div class="step-number">03</div>
+        <h3>Edit & Deploy</h3>
+        <p>Customize and deploy your product globally in seconds.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="container">
+    <h2 class="section-title">Live AI Demo Preview</h2>
+
+    <div class="demo-grid">
+
+      <div class="glass-card mockup"></div>
+      <div class="glass-card mockup"></div>
+      <div class="glass-card mockup"></div>
+
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="container">
+    <h2 class="section-title">Pricing Plans</h2>
+
+    <div class="pricing">
+
+      <div class="glass-card price-card">
+        <h3>Free</h3>
+        <div class="price">$0</div>
+        <p>Basic AI generation tools</p>
+      </div>
+
+      <div class="glass-card price-card">
+        <h3>Pro</h3>
+        <div class="price">$49</div>
+        <p>Advanced AI features & deployment</p>
+      </div>
+
+      <div class="glass-card price-card">
+        <h3>Enterprise</h3>
+        <div class="price">Custom</div>
+        <p>Scalable AI infrastructure for teams</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">What Founders & Developers Say</h2>
+
+    <div class="testimonials">
+
+      <div class="glass-card">
+        <p>
+          "Faceless AI completely transformed how we launch products.
+          We built our MVP in under an hour."
+        </p>
+        <br>
+        <strong>— Sarah Johnson, Startup Founder</strong>
+      </div>
+
+      <div class="glass-card">
+        <p>
+          "The AI-generated code quality is insanely impressive.
+          This feels like the future of software engineering."
+        </p>
+        <br>
+        <strong>— Michael Chen, Full Stack Developer</strong>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+
+    <div class="glass-card faq-item">
+      <h3>Can Faceless AI deploy projects automatically?</h3>
+      <p>Yes. The platform supports instant cloud deployment.</p>
+    </div>
+
+    <div class="glass-card faq-item">
+      <h3>Does it support mobile app generation?</h3>
+      <p>Absolutely. iOS and Android projects are supported.</p>
+    </div>
+
+    <div class="glass-card faq-item">
+      <h3>Can teams collaborate together?</h3>
+      <p>Yes. Shared workspaces and collaborative editing are included.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-grid">
+
+    <div>
+      <h3>Faceless AI</h3>
+      <p>The future of AI-powered creation.</p>
+    </div>
+
+    <div>
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <div>
+      <h4>Legal</h4>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+
+    <div>
+      <h4>Social</h4>
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Discord</a>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
