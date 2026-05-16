@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faceless AI — Sign In</title>
+
+  <meta name="description" content="Sign in to Faceless AI and start building with AI-powered prompts." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#050816;
+      color:white;
+      overflow-x:hidden;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      width:100%;
+      height:100%;
+      background:
+        radial-gradient(circle at top left, rgba(0,132,255,.2), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(140,0,255,.2), transparent 30%);
+      z-index:-1;
+    }
+
+    .auth-container{
+      width:90%;
+      max-width:450px;
+    }
+
+    .auth-card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(20px);
+      border-radius:24px;
+      padding:50px 40px;
+      box-shadow:0 0 40px rgba(0,0,0,.3);
+    }
+
+    .auth-header{
+      text-align:center;
+      margin-bottom:40px;
+    }
+
+    .logo{
+      font-size:1.8rem;
+      font-weight:800;
+      color:#6ae2ff;
+      margin-bottom:20px;
+    }
+
+    .auth-header h1{
+      font-size:2rem;
+      margin-bottom:10px;
+      background:linear-gradient(90deg,#6ae2ff,#9b5cff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .auth-header p{
+      color:#cfcfe7;
+      font-size:0.95rem;
+    }
+
+    .form-group{
+      margin-bottom:20px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:8px;
+      color:#b8b8d0;
+      font-weight:500;
+      font-size:0.9rem;
+    }
+
+    input{
+      width:100%;
+      padding:12px 16px;
+      background:rgba(15,23,42,.6);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      color:white;
+      font-family:'Inter',sans-serif;
+      font-size:0.95rem;
+      transition:.3s;
+    }
+
+    input:focus{
+      outline:none;
+      border-color:#6ae2ff;
+      background:rgba(15,23,42,.8);
+      box-shadow:0 0 15px rgba(106,226,255,.2);
+    }
+
+    input::placeholder{
+      color:#6b7280;
+    }
+
+    .form-options{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:30px;
+      font-size:0.9rem;
+    }
+
+    .checkbox-group{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    input[type="checkbox"]{
+      width:16px;
+      height:16px;
+      cursor:pointer;
+      accent-color:#6ae2ff;
+    }
+
+    .forgot-password{
+      color:#6ae2ff;
+      text-decoration:none;
+      transition:.3s;
+    }
+
+    .forgot-password:hover{
+      color:#9b5cff;
+    }
+
+    .btn{
+      width:100%;
+      padding:14px;
+      border-radius:12px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      transition:.3s;
+      text-decoration:none;
+      display:block;
+      text-align:center;
+      font-size:0.95rem;
+    }
+
+    .primary{
+      background:linear-gradient(90deg,#00c6ff,#7d2cff);
+      color:white;
+      box-shadow:0 0 20px rgba(0,198,255,.4);
+      margin-bottom:15px;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 0 30px rgba(0,198,255,.6);
+    }
+
+    .divider{
+      display:flex;
+      align-items:center;
+      margin:30px 0;
+      gap:15px;
+      color:#6b7280;
+      font-size:0.9rem;
+    }
+
+    .divider::before,
+    .divider::after{
+      content:"";
+      flex:1;
+      height:1px;
+      background:rgba(255,255,255,.08);
+    }
+
+    .social-auth{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:25px;
+    }
+
+    .social-btn{
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(15,23,42,.4);
+      color:white;
+      cursor:pointer;
+      font-weight:500;
+      transition:.3s;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .social-btn:hover{
+      background:rgba(15,23,42,.8);
+      border-color:#6ae2ff;
+    }
+
+    .auth-footer{
+      text-align:center;
+      color:#b8b8d0;
+      font-size:0.9rem;
+    }
+
+    .auth-footer a{
+      color:#6ae2ff;
+      text-decoration:none;
+      transition:.3s;
+    }
+
+    .auth-footer a:hover{
+      color:#9b5cff;
+    }
+
+    .error-message{
+      background:rgba(239,68,68,.1);
+      border:1px solid rgba(239,68,68,.3);
+      color:#fca5a5;
+      padding:12px 16px;
+      border-radius:12px;
+      margin-bottom:20px;
+      font-size:0.9rem;
+      display:none;
+    }
+
+    .error-message.show{
+      display:block;
+    }
+
+    .success-message{
+      background:rgba(34,197,94,.1);
+      border:1px solid rgba(34,197,94,.3);
+      color:#86efac;
+      padding:12px 16px;
+      border-radius:12px;
+      margin-bottom:20px;
+      font-size:0.9rem;
+      display:none;
+    }
+
+    .success-message.show{
+      display:block;
+    }
+
+    @media(max-width:600px){
+      .auth-card{
+        padding:40px 24px;
+      }
+
+      .auth-header h1{
+        font-size:1.5rem;
+      }
+
+      .social-auth{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="auth-container">
+  <div class="auth-card">
+    
+    <div class="auth-header">
+      <div class="logo">Faceless AI</div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to your account to continue building</p>
+    </div>
+
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          placeholder="you@example.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <div class="form-options">
+        <div class="checkbox-group">
+          <input 
+            type="checkbox" 
+            id="remember" 
+            name="remember"
+          />
+          <label for="remember" style="margin:0; cursor:pointer;">Remember me</label>
+        </div>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn primary">Sign In</button>
+    </form>
+
+    <div class="divider">or continue with</div>
+
+    <div class="social-auth">
+      <button type="button" class="social-btn">
+        <span>🔵</span> Google
+      </button>
+      <button type="button" class="social-btn">
+        <span>🔘</span> GitHub
+      </button>
+    </div>
+
+    <div class="auth-footer">
+      Don't have an account? 
+      <a href="/signup.html">Create account</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const loginForm = document.getElementById('loginForm');
+  const errorMessage = document.getElementById('errorMessage');
+  const successMessage = document.getElementById('successMessage');
+
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const remember = document.getElementById('remember').checked;
+
+    // Clear messages
+    errorMessage.classList.remove('show');
+    successMessage.classList.remove('show');
+
+    // Basic validation
+    if (!email || !password) {
+      showError('Please fill in all fields');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      showError('Please enter a valid email address');
+      return;
+    }
+
+    if (password.length < 6) {
+      showError('Password must be at least 6 characters');
+      return;
+    }
+
+    // Simulate login
+    showSuccess('Signing in...');
+    
+    setTimeout(() => {
+      showSuccess('Login successful! Redirecting...');
+      
+      // Store credentials if remember me is checked
+      if (remember) {
+        localStorage.setItem('rememberEmail', email);
+      } else {
+        localStorage.removeItem('rememberEmail');
+      }
+
+      // Redirect after 1.5 seconds
+      setTimeout(() => {
+        window.location.href = '/dashboard.html';
+      }, 1500);
+    }, 1000);
+  });
+
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.add('show');
+  }
+
+  function showSuccess(message) {
+    successMessage.textContent = message;
+    successMessage.classList.add('show');
+  }
+
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  // Load remembered email if exists
+  window.addEventListener('load', function() {
+    const rememberedEmail = localStorage.getItem('rememberEmail');
+    if (rememberedEmail) {
+      document.getElementById('email').value = rememberedEmail;
+      document.getElementById('remember').checked = true;
+    }
+  });
+
+  // Social auth buttons
+  document.querySelectorAll('.social-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const provider = this.textContent.includes('Google') ? 'Google' : 'GitHub';
+      showSuccess(`Redirecting to ${provider}...`);
+      // Implement actual OAuth flow here
+    });
+  });
+</script>
+
+</body>
+</html>
